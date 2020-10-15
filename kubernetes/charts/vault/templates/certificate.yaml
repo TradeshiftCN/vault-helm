@@ -1,0 +1,21 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: {{ .Chart.Name }}-certificate
+  annotations:
+    team: infrasec
+spec:
+  secretName: {{ .Chart.Name }}-certificate
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  keySize: 2048
+  keyAlgorithm: rsa
+  keyEncoding: pkcs1
+  usages:
+    - server auth
+  dnsNames:
+  - {{ .Chart.Name }}-client.{{ .Values.region }}.{{ .Values.environment }}.{{ .Values.site }}
+  issuerRef:
+    name: vault-issuer
+    kind: ClusterIssuer
+

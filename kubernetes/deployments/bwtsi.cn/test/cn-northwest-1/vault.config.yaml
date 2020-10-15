@@ -1,0 +1,47 @@
+region: cn-northwest-1
+environment: test
+site: bwtsi.cn
+
+# Available parameters and their default values for the Vault chart.
+
+global:
+  # enabled is the master enabled switch. Setting this to true or false
+  # will enable or disable all the components within this chart by default.
+  enabled: true
+  # Image pull secret to use for registry authentication.
+
+injector:
+  # True if you want to enable vault agent injection.
+  enabled: true
+
+  # If true, will enable a node exporter metrics endpoint at /metrics.
+  metrics:
+    enabled: false
+
+  # External vault server address for the injector to use. Setting this will
+  # disable deployment of a vault server along with the injector.
+  externalVaultAddr: "https://vault-internal.cn-north-1.base.bwtsi.cn/"
+
+  # image sets the repo and tag of the vault-k8s image to use for the injector.
+  image:
+    repository: "registry.bwtsi.cn/vault-k8s"
+    tag: "0.5.0"
+    pullPolicy: IfNotPresent
+
+  agentImage:
+    repository: "registry.bwtsi.cn/vault"
+    tag: "1.5.2"
+  # Mount Path of the Vault Kubernetes Auth Method.
+  authPath: "auth/kubernetes"
+
+  # Configures the log verbosity of the injector. Supported log levels: Trace, Debug, Error, Warn, Info
+  logLevel: "info"
+
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 250m
+    limits:
+      memory: 512Mi
+      cpu: 500m
+
